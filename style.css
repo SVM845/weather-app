@@ -1,6 +1,4 @@
-/* =========================================================
-   TOKENS
-========================================================= */
+/* TOKENS */
 
 :root {
   --ink: #1b2430;
@@ -14,10 +12,7 @@
   --text-on-sky: #16233a;
 }
 
-
-/* =========================================================
-   BASE
-========================================================= */
+/* BASE */
 
 * {
   box-sizing: border-box;
@@ -30,12 +25,7 @@ body {
   font-family: "Work Sans", sans-serif;
   color: var(--text-on-sky);
 
-  background:
-    linear-gradient(
-      160deg,
-      var(--sky-a),
-      var(--sky-b) 70%
-    );
+  background: linear-gradient(160deg, var(--sky-a), var(--sky-b) 70%);
 
   transition:
     background 900ms ease,
@@ -48,10 +38,7 @@ body {
   font-family: "Space Grotesk", sans-serif;
 }
 
-
-/* =========================================================
-   GRAIN
-========================================================= */
+/* GRAIN */
 
 .grain {
   position: fixed;
@@ -66,10 +53,7 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-
-/* =========================================================
-   WRAPPER
-========================================================= */
+/* WRAPPER */
 
 .wrap {
   position: relative;
@@ -81,10 +65,7 @@ body {
   padding: 40px 24px 80px;
 }
 
-
-/* =========================================================
-   HEADER
-========================================================= */
+/* HEADER */
 
 header {
   display: flex;
@@ -118,10 +99,7 @@ header {
   flex-wrap: wrap;
 }
 
-
-/* =========================================================
-   SEARCH
-========================================================= */
+/* SEARCH */
 
 .search-tab {
   display: flex;
@@ -158,10 +136,7 @@ header {
   color: rgba(27, 36, 48, 0.45);
 }
 
-
-/* =========================================================
-   BUTTONS
-========================================================= */
+/* BUTTONS */
 
 .icon-btn {
   border: none;
@@ -204,10 +179,7 @@ header {
   color: var(--coral);
 }
 
-
-/* =========================================================
-   UNIT TOGGLE
-========================================================= */
+/* UNIT TOGGLE */
 
 .unit-toggle {
   display: flex;
@@ -239,10 +211,7 @@ header {
   color: var(--paper);
 }
 
-
-/* =========================================================
-   MAIN WEATHER SECTION
-========================================================= */
+/* MAIN WEATHER SECTION */
 
 main {
   display: grid;
@@ -272,10 +241,7 @@ main {
   margin: 0 6px;
 }
 
-
-/* =========================================================
-   TEMPERATURE
-========================================================= */
+/* TEMPERATURE */
 
 .temp-row {
   display: flex;
@@ -317,10 +283,7 @@ main {
   margin: 0 0 18px;
 }
 
-
-/* =========================================================
-   WEATHER META
-========================================================= */
+/* WEATHER META */
 
 .meta-line {
   display: flex;
@@ -356,10 +319,7 @@ main {
   opacity: 0.65;
 }
 
-
-/* =========================================================
-   WEATHER ILLUSTRATION
-========================================================= */
+/* WEATHER ILLUSTRATION */
 
 .illustration {
   display: flex;
@@ -375,16 +335,10 @@ main {
 
   height: auto;
 
-  filter:
-    drop-shadow(
-      0 10px 18px rgba(0, 0, 0, 0.12)
-    );
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.12));
 }
 
-
-/* =========================================================
-   FORECAST
-========================================================= */
+/* FORECAST */
 
 .forecast {
   margin-top: 56px;
@@ -474,10 +428,7 @@ main {
   opacity: 0.55;
 }
 
-
-/* =========================================================
-   STATES
-========================================================= */
+/* STATES */
 
 .hint {
   font-size: 0.85rem;
@@ -499,10 +450,7 @@ main {
   color: var(--coral);
 }
 
-
-/* =========================================================
-   FOOTER
-========================================================= */
+/* FOOTER */
 
 footer {
   margin-top: 60px;
@@ -524,10 +472,7 @@ footer a {
   color: inherit;
 }
 
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+/* RESPONSIVE */
 
 @media (max-width: 720px) {
   main {
@@ -566,10 +511,7 @@ footer a {
   }
 }
 
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
+/* REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
   body {

@@ -1,15 +1,12 @@
-/* =====================================================================
+/*===========
    SKYLINE — a tiny vanilla-JS weather app
 
-   Data:
+   Data: 2026
    Open-Meteo
-   No API key required.
-===================================================================== */
+   No API key required.=========== */
 
 
-/* =========================================================
-   DOM HELPERS
-========================================================= */
+/*   DOM HELPERS*/
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -17,267 +14,259 @@ const content = $("#content");
 const cityInput = $("#cityInput");
 
 
-/* =========================================================
-   APP STATE
-========================================================= */
+/*   APP STATE*/
 
 let unit = "C";
 
 let lastData = null;
 
 
-/* =========================================================
-   WEATHER CODES
-========================================================= */
+/*   WEATHER CODES*/
 
 const WEATHER = {
-  0: {
-    label: "clear sky",
-    icon: "sun"
-  },
+    0: {
+        label: "clear sky",
+        icon: "sun"
+    },
 
-  1: {
-    label: "mostly clear",
-    icon: "sun-cloud"
-  },
+    1: {
+        label: "mostly clear",
+        icon: "sun-cloud"
+    },
 
-  2: {
-    label: "partly cloudy",
-    icon: "sun-cloud"
-  },
+    2: {
+        label: "partly cloudy",
+        icon: "sun-cloud"
+    },
 
-  3: {
-    label: "overcast",
-    icon: "cloud"
-  },
+    3: {
+        label: "overcast",
+        icon: "cloud"
+    },
 
-  45: {
-    label: "foggy",
-    icon: "fog"
-  },
+    45: {
+        label: "foggy",
+        icon: "fog"
+    },
 
-  48: {
-    label: "icy fog",
-    icon: "fog"
-  },
+    48: {
+        label: "icy fog",
+        icon: "fog"
+    },
 
-  51: {
-    label: "light drizzle",
-    icon: "rain"
-  },
+    51: {
+        label: "light drizzle",
+        icon: "rain"
+    },
 
-  53: {
-    label: "drizzle",
-    icon: "rain"
-  },
+    53: {
+        label: "drizzle",
+        icon: "rain"
+    },
 
-  55: {
-    label: "heavy drizzle",
-    icon: "rain"
-  },
+    55: {
+        label: "heavy drizzle",
+        icon: "rain"
+    },
 
-  56: {
-    label: "freezing drizzle",
-    icon: "rain"
-  },
+    56: {
+        label: "freezing drizzle",
+        icon: "rain"
+    },
 
-  57: {
-    label: "freezing drizzle",
-    icon: "rain"
-  },
+    57: {
+        label: "freezing drizzle",
+        icon: "rain"
+    },
 
-  61: {
-    label: "light rain",
-    icon: "rain"
-  },
+    61: {
+        label: "light rain",
+        icon: "rain"
+    },
 
-  63: {
-    label: "rain",
-    icon: "rain"
-  },
+    63: {
+        label: "rain",
+        icon: "rain"
+    },
 
-  65: {
-    label: "heavy rain",
-    icon: "rain"
-  },
+    65: {
+        label: "heavy rain",
+        icon: "rain"
+    },
 
-  66: {
-    label: "freezing rain",
-    icon: "rain"
-  },
+    66: {
+        label: "freezing rain",
+        icon: "rain"
+    },
 
-  67: {
-    label: "freezing rain",
-    icon: "rain"
-  },
+    67: {
+        label: "freezing rain",
+        icon: "rain"
+    },
 
-  71: {
-    label: "light snow",
-    icon: "snow"
-  },
+    71: {
+        label: "light snow",
+        icon: "snow"
+    },
 
-  73: {
-    label: "snow",
-    icon: "snow"
-  },
+    73: {
+        label: "snow",
+        icon: "snow"
+    },
 
-  75: {
-    label: "heavy snow",
-    icon: "snow"
-  },
+    75: {
+        label: "heavy snow",
+        icon: "snow"
+    },
 
-  77: {
-    label: "snow grains",
-    icon: "snow"
-  },
+    77: {
+        label: "snow grains",
+        icon: "snow"
+    },
 
-  80: {
-    label: "rain showers",
-    icon: "rain"
-  },
+    80: {
+        label: "rain showers",
+        icon: "rain"
+    },
 
-  81: {
-    label: "rain showers",
-    icon: "rain"
-  },
+    81: {
+        label: "rain showers",
+        icon: "rain"
+    },
 
-  82: {
-    label: "violent showers",
-    icon: "rain"
-  },
+    82: {
+        label: "violent showers",
+        icon: "rain"
+    },
 
-  85: {
-    label: "snow showers",
-    icon: "snow"
-  },
+    85: {
+        label: "snow showers",
+        icon: "snow"
+    },
 
-  86: {
-    label: "snow showers",
-    icon: "snow"
-  },
+    86: {
+        label: "snow showers",
+        icon: "snow"
+    },
 
-  95: {
-    label: "thunderstorm",
-    icon: "storm"
-  },
+    95: {
+        label: "thunderstorm",
+        icon: "storm"
+    },
 
-  96: {
-    label: "thunder + hail",
-    icon: "storm"
-  },
+    96: {
+        label: "thunder + hail",
+        icon: "storm"
+    },
 
-  99: {
-    label: "thunder + hail",
-    icon: "storm"
-  }
+    99: {
+        label: "thunder + hail",
+        icon: "storm"
+    }
 };
 
 
 function weatherInfo(code) {
-  return WEATHER[code] || {
-    label: "unsettled",
-    icon: "cloud"
-  };
+    return WEATHER[code] || {
+        label: "unsettled",
+        icon: "cloud"
+    };
 }
 
 
-/* =========================================================
-   SKY BACKGROUND
-========================================================= */
+/*   SKY BACKGROUND*/
 
 function skyFor(icon, isDay) {
 
-  const skies = {
+    const skies = {
 
-    sun: {
-      day: ["#79acdd", "#cfe7f7"],
-      night: ["#0b1b3a", "#24345c"]
-    },
+        sun: {
+            day: ["#79acdd", "#cfe7f7"],
+            night: ["#0b1b3a", "#24345c"]
+        },
 
-    "sun-cloud": {
-      day: ["#8fb4dd", "#dce8f2"],
-      night: ["#16223e", "#2c3a5c"]
-    },
+        "sun-cloud": {
+            day: ["#8fb4dd", "#dce8f2"],
+            night: ["#16223e", "#2c3a5c"]
+        },
 
-    cloud: {
-      day: ["#93a5b8", "#dfe5ea"],
-      night: ["#232c3a", "#3a4658"]
-    },
+        cloud: {
+            day: ["#93a5b8", "#dfe5ea"],
+            night: ["#232c3a", "#3a4658"]
+        },
 
-    fog: {
-      day: ["#a9afb5", "#dde1e4"],
-      night: ["#2c2f34", "#454a51"]
-    },
+        fog: {
+            day: ["#a9afb5", "#dde1e4"],
+            night: ["#2c2f34", "#454a51"]
+        },
 
-    rain: {
-      day: ["#5c7286", "#93a6b6"],
-      night: ["#1c2733", "#354254"]
-    },
+        rain: {
+            day: ["#5c7286", "#93a6b6"],
+            night: ["#1c2733", "#354254"]
+        },
 
-    snow: {
-      day: ["#c3d3e0", "#eef4f9"],
-      night: ["#2a3242", "#464f63"]
-    },
+        snow: {
+            day: ["#c3d3e0", "#eef4f9"],
+            night: ["#2a3242", "#464f63"]
+        },
 
-    storm: {
-      day: ["#3b4051", "#6a6f82"],
-      night: ["#15161f", "#35384a"]
-    }
+        storm: {
+            day: ["#3b4051", "#6a6f82"],
+            night: ["#15161f", "#35384a"]
+        }
 
-  };
+    };
 
-  const pick = skies[icon] || skies.cloud;
+    const pick = skies[icon] || skies.cloud;
 
-  const [a, b] = isDay
-    ? pick.day
-    : pick.night;
+    const [a, b] = isDay
+        ? pick.day
+        : pick.night;
 
-  const textColor = isDay
-    ? "#16233a"
-    : "#eef2f8";
+    const textColor = isDay
+        ? "#16233a"
+        : "#eef2f8";
 
-  return {
-    a,
-    b,
-    textColor
-  };
+    return {
+        a,
+        b,
+        textColor
+    };
 }
 
 
 function applySky(icon, isDay) {
 
-  const {
-    a,
-    b,
-    textColor
-  } = skyFor(icon, isDay);
+    const {
+        a,
+        b,
+        textColor
+    } = skyFor(icon, isDay);
 
-  document.documentElement.style.setProperty(
-    "--sky-a",
-    a
-  );
+    document.documentElement.style.setProperty(
+        "--sky-a",
+        a
+    );
 
-  document.documentElement.style.setProperty(
-    "--sky-b",
-    b
-  );
+    document.documentElement.style.setProperty(
+        "--sky-b",
+        b
+    );
 
-  document.documentElement.style.setProperty(
-    "--text-on-sky",
-    textColor
-  );
+    document.documentElement.style.setProperty(
+        "--text-on-sky",
+        textColor
+    );
 }
 
 
-/* =========================================================
-   WEATHER ICONS
-========================================================= */
+/*   WEATHER ICONS*/
 
 function iconSvg(kind) {
 
-  const icons = {
+    const icons = {
 
-    sun: `
+        sun: `
       <svg viewBox="0 0 100 100">
         <g
           stroke="currentColor"
@@ -307,7 +296,7 @@ function iconSvg(kind) {
       </svg>
     `,
 
-    "sun-cloud": `
+        "sun-cloud": `
       <svg viewBox="0 0 100 100">
 
         <circle
@@ -339,7 +328,7 @@ function iconSvg(kind) {
       </svg>
     `,
 
-    cloud: `
+        cloud: `
       <svg viewBox="0 0 100 100">
 
         <path
@@ -362,7 +351,7 @@ function iconSvg(kind) {
       </svg>
     `,
 
-    rain: `
+        rain: `
       <svg viewBox="0 0 100 100">
 
         <path
@@ -395,7 +384,7 @@ function iconSvg(kind) {
       </svg>
     `,
 
-    snow: `
+        snow: `
       <svg viewBox="0 0 100 100">
 
         <path
@@ -424,7 +413,7 @@ function iconSvg(kind) {
       </svg>
     `,
 
-    fog: `
+        fog: `
       <svg viewBox="0 0 100 100">
 
         <path
@@ -457,7 +446,7 @@ function iconSvg(kind) {
       </svg>
     `,
 
-    storm: `
+        storm: `
       <svg viewBox="0 0 100 100">
 
         <path
@@ -497,92 +486,84 @@ function iconSvg(kind) {
       </svg>
     `
 
-  };
+    };
 
-  return icons[kind] || icons.cloud;
+    return icons[kind] || icons.cloud;
 }
 
 
-/* =========================================================
-   TEMPERATURE FORMATTING
-========================================================= */
+/*   TEMPERATURE FORMATTING*/
 
 function fmtTemp(celsius) {
 
-  const value = unit === "C"
-    ? celsius
-    : celsius * 9 / 5 + 32;
+    const value = unit === "C"
+        ? celsius
+        : celsius * 9 / 5 + 32;
 
-  return Math.round(value);
+    return Math.round(value);
 }
 
 
-/* =========================================================
-   RENDER
-========================================================= */
+/*   RENDER*/
 
 function render() {
 
-  if (!lastData) {
-    return;
-  }
-
-  const {
-    place,
-    current,
-    daily,
-    isDay
-  } = lastData;
-
-  const info = weatherInfo(
-    current.weather_code
-  );
-
-  applySky(
-    info.icon,
-    isDay
-  );
-
-
-  /* -----------------------------------------
-     Day names
-  ----------------------------------------- */
-
-  const dayNames = daily.time.map(
-    (iso, index) => {
-
-      if (index === 0) {
-        return "today";
-      }
-
-      const date = new Date(
-        iso + "T00:00:00"
-      );
-
-      return date
-        .toLocaleDateString(
-          undefined,
-          {
-            weekday: "short"
-          }
-        )
-        .toLowerCase();
+    if (!lastData) {
+        return;
     }
-  );
+
+    const {
+        place,
+        current,
+        daily,
+        isDay
+    } = lastData;
+
+    const info = weatherInfo(
+        current.weather_code
+    );
+
+    applySky(
+        info.icon,
+        isDay
+    );
 
 
-  /* -----------------------------------------
-     Forecast
-  ----------------------------------------- */
+    /*       Day names*/
 
-  const forecastHtml = daily.time
-    .map((iso, index) => {
+    const dayNames = daily.time.map(
+        (iso, index) => {
 
-      const dInfo = weatherInfo(
-        daily.weather_code[index]
-      );
+            if (index === 0) {
+                return "today";
+            }
 
-      return `
+            const date = new Date(
+                iso + "T00:00:00"
+            );
+
+            return date
+                .toLocaleDateString(
+                    undefined,
+                    {
+                        weekday: "short"
+                    }
+                )
+                .toLowerCase();
+        }
+    );
+
+
+    /*       Forecast*/
+
+    const forecastHtml = daily.time
+        .map((iso, index) => {
+
+            const dInfo = weatherInfo(
+                daily.weather_code[index]
+            );
+
+            return `
         <div class="fday">
 
           <div class="dname">
@@ -595,27 +576,25 @@ function render() {
             <b>
               ${fmtTemp(
                 daily.temperature_2m_max[index]
-              )}°
+            )}°
             </b>
 
             <span class="lo">
               ${fmtTemp(
                 daily.temperature_2m_min[index]
-              )}°
+            )}°
             </span>
           </div>
 
         </div>
       `;
-    })
-    .join("");
+        })
+        .join("");
 
 
-  /* -----------------------------------------
-     Main content
-  ----------------------------------------- */
+    /*       Main content */
 
-  content.innerHTML = `
+    content.innerHTML = `
 
     <main>
 
@@ -634,8 +613,8 @@ function render() {
 
           <div class="temp-big">
             ${fmtTemp(
-              current.temperature_2m
-            )}
+        current.temperature_2m
+    )}
           </div>
 
           <div class="temp-unit">
@@ -649,8 +628,8 @@ function render() {
           ${info.label},
           feels like
           ${fmtTemp(
-            current.apparent_temperature
-          )}°
+        current.apparent_temperature
+    )}°
         </p>
 
 
@@ -659,8 +638,8 @@ function render() {
           <div>
             <b>
               ${Math.round(
-                current.relative_humidity_2m
-              )}%
+        current.relative_humidity_2m
+    )}%
             </b>
 
             <small>
@@ -672,8 +651,8 @@ function render() {
           <div>
             <b>
               ${Math.round(
-                current.wind_speed_10m
-              )} km/h
+        current.wind_speed_10m
+    )} km/h
             </b>
 
             <small>
@@ -685,12 +664,12 @@ function render() {
           <div>
             <b>
               ${fmtTemp(
-                daily.temperature_2m_max[0]
-              )}°
+        daily.temperature_2m_max[0]
+    )}°
               /
               ${fmtTemp(
-                daily.temperature_2m_min[0]
-              )}°
+        daily.temperature_2m_min[0]
+    )}°
             </b>
 
             <small>
@@ -732,12 +711,12 @@ function render() {
       <span>
         last checked
         ${new Date().toLocaleTimeString(
-          undefined,
-          {
+        undefined,
+        {
             hour: "2-digit",
             minute: "2-digit"
-          }
-        )}
+        }
+    )}
       </span>
 
     </footer>
@@ -745,221 +724,209 @@ function render() {
 }
 
 
-/* =========================================================
-   GEOCODING
-========================================================= */
+/*   GEOCODING*/
 
 async function geocode(cityName) {
 
-  const url =
-    `https://geocoding-api.open-meteo.com/v1/search` +
-    `?name=${encodeURIComponent(cityName)}` +
-    `&count=1` +
-    `&language=en` +
-    `&format=json`;
+    const url =
+        `https://geocoding-api.open-meteo.com/v1/search` +
+        `?name=${encodeURIComponent(cityName)}` +
+        `&count=1` +
+        `&language=en` +
+        `&format=json`;
 
-  const response = await fetch(url);
+    const response = await fetch(url);
 
-  const data = await response.json();
+    const data = await response.json();
 
-  if (
-    !data.results ||
-    data.results.length === 0
-  ) {
-    return null;
-  }
+    if (
+        !data.results ||
+        data.results.length === 0
+    ) {
+        return null;
+    }
 
-  const result = data.results[0];
+    const result = data.results[0];
 
-  return {
-    name: result.name,
-    country: result.country || "",
-    lat: result.latitude,
-    lon: result.longitude
-  };
+    return {
+        name: result.name,
+        country: result.country || "",
+        lat: result.latitude,
+        lon: result.longitude
+    };
 }
 
 
-/* =========================================================
-   WEATHER API
-========================================================= */
+/*   WEATHER API*/
 
 async function fetchWeather(lat, lon) {
 
-  const url =
-    `https://api.open-meteo.com/v1/forecast` +
-    `?latitude=${lat}` +
-    `&longitude=${lon}` +
-    `&current=` +
-    `temperature_2m,` +
-    `relative_humidity_2m,` +
-    `apparent_temperature,` +
-    `weather_code,` +
-    `wind_speed_10m,` +
-    `is_day` +
-    `&daily=` +
-    `weather_code,` +
-    `temperature_2m_max,` +
-    `temperature_2m_min` +
-    `&timezone=auto`;
+    const url =
+        `https://api.open-meteo.com/v1/forecast` +
+        `?latitude=${lat}` +
+        `&longitude=${lon}` +
+        `&current=` +
+        `temperature_2m,` +
+        `relative_humidity_2m,` +
+        `apparent_temperature,` +
+        `weather_code,` +
+        `wind_speed_10m,` +
+        `is_day` +
+        `&daily=` +
+        `weather_code,` +
+        `temperature_2m_max,` +
+        `temperature_2m_min` +
+        `&timezone=auto`;
 
-  const response = await fetch(url);
+    const response = await fetch(url);
 
-  if (!response.ok) {
-    throw new Error(
-      "weather fetch failed"
-    );
-  }
+    if (!response.ok) {
+        throw new Error(
+            "weather fetch failed"
+        );
+    }
 
-  return response.json();
+    return response.json();
 }
 
 
-/* =========================================================
-   LOAD CITY
-========================================================= */
+/*   LOAD CITY*/
 
 async function loadCity(cityName) {
 
-  content.innerHTML = `
+    content.innerHTML = `
     <div class="status">
       finding ${cityName}…
     </div>
   `;
 
-  try {
+    try {
 
-    const place = await geocode(
-      cityName
-    );
+        const place = await geocode(
+            cityName
+        );
 
-    if (!place) {
+        if (!place) {
 
-      content.innerHTML = `
+            content.innerHTML = `
         <div class="status error">
           couldn't find "${cityName}"
           — try a bigger nearby city?
         </div>
       `;
 
-      return;
-    }
+            return;
+        }
 
-    await loadCoords(
-      place.lat,
-      place.lon,
-      place.name,
-      place.country
-    );
+        await loadCoords(
+            place.lat,
+            place.lon,
+            place.name,
+            place.country
+        );
 
-    localStorage.setItem(
-      "skyline-last-city",
-      cityName
-    );
+        localStorage.setItem(
+            "skyline-last-city",
+            cityName
+        );
 
-  } catch (error) {
+    } catch (error) {
 
-    console.error(error);
+        console.error(error);
 
-    content.innerHTML = `
+        content.innerHTML = `
       <div class="status error">
         something went sideways
         fetching the weather.
         try again in a sec.
       </div>
     `;
-  }
+    }
 }
 
 
-/* =========================================================
-   LOAD COORDINATES
-========================================================= */
+/*   LOAD COORDINATES*/
 
 async function loadCoords(
-  lat,
-  lon,
-  name,
-  country
+    lat,
+    lon,
+    name,
+    country
 ) {
 
-  content.innerHTML = `
+    content.innerHTML = `
     <div class="status">
       checking the sky…
     </div>
   `;
 
-  const data = await fetchWeather(
-    lat,
-    lon
-  );
+    const data = await fetchWeather(
+        lat,
+        lon
+    );
 
-  lastData = {
+    lastData = {
 
-    place: {
-      name: name || "your spot",
-      country: country || ""
-    },
+        place: {
+            name: name || "your spot",
+            country: country || ""
+        },
 
-    current: data.current,
+        current: data.current,
 
-    daily: data.daily,
+        daily: data.daily,
 
-    isDay:
-      data.current.is_day === 1
-  };
+        isDay:
+            data.current.is_day === 1
+    };
 
-  render();
+    render();
 }
 
 
-/* =========================================================
-   SEARCH EVENTS
-========================================================= */
+/*   SEARCH EVENTS*/
 
 $("#searchBtn").addEventListener(
-  "click",
-  () => {
+    "click",
+    () => {
 
-    const value =
-      cityInput.value.trim();
+        const value =
+            cityInput.value.trim();
 
-    if (value) {
-      loadCity(value);
+        if (value) {
+            loadCity(value);
+        }
     }
-  }
 );
 
 
 cityInput.addEventListener(
-  "keydown",
-  (event) => {
+    "keydown",
+    (event) => {
 
-    if (event.key !== "Enter") {
-      return;
+        if (event.key !== "Enter") {
+            return;
+        }
+
+        const value =
+            cityInput.value.trim();
+
+        if (value) {
+            loadCity(value);
+        }
     }
-
-    const value =
-      cityInput.value.trim();
-
-    if (value) {
-      loadCity(value);
-    }
-  }
 );
 
 
-/* =========================================================
-   GEOLOCATION
-========================================================= */
+/*   GEOLOCATION*/
 
 $("#locateBtn").addEventListener(
-  "click",
-  () => {
+    "click",
+    () => {
 
-    if (!navigator.geolocation) {
+        if (!navigator.geolocation) {
 
-      content.innerHTML = `
+            content.innerHTML = `
         <div class="status error">
           your browser won't share
           location — try searching
@@ -967,98 +934,94 @@ $("#locateBtn").addEventListener(
         </div>
       `;
 
-      return;
-    }
+            return;
+        }
 
-    content.innerHTML = `
+        content.innerHTML = `
       <div class="status">
         locating you…
       </div>
     `;
 
 
-    navigator.geolocation.getCurrentPosition(
+        navigator.geolocation.getCurrentPosition(
 
-      (position) => {
+            (position) => {
 
-        loadCoords(
-          position.coords.latitude,
-          position.coords.longitude,
-          "your location",
-          ""
-        );
+                loadCoords(
+                    position.coords.latitude,
+                    position.coords.longitude,
+                    "your location",
+                    ""
+                );
 
-      },
+            },
 
-      () => {
+            () => {
 
-        content.innerHTML = `
+                content.innerHTML = `
           <div class="status error">
             couldn't get your location
             — mind searching a city instead?
           </div>
         `;
 
-      }
+            }
 
-    );
-  }
+        );
+    }
 );
 
 
-/* =========================================================
-   UNIT TOGGLE
-========================================================= */
+/*   UNIT TOGGLE*/
 
 $("#unitC").addEventListener(
-  "click",
-  () => {
+    "click",
+    () => {
 
-    unit = "C";
+        unit = "C";
 
-    toggleUnitButtons();
+        toggleUnitButtons();
 
-    render();
-  }
+        render();
+    }
 );
 
 
 $("#unitF").addEventListener(
-  "click",
-  () => {
+    "click",
+    () => {
 
-    unit = "F";
+        unit = "F";
 
-    toggleUnitButtons();
+        toggleUnitButtons();
 
-    render();
-  }
+        render();
+    }
 );
 
 
 function toggleUnitButtons() {
 
-  $("#unitC").classList.toggle(
-    "active",
-    unit === "C"
-  );
+    $("#unitC").classList.toggle(
+        "active",
+        unit === "C"
+    );
 
-  $("#unitF").classList.toggle(
-    "active",
-    unit === "F"
-  );
+    $("#unitF").classList.toggle(
+        "active",
+        unit === "F"
+    );
 }
 
 
-/* =========================================================
-   INIT
-========================================================= */
+/*   INIT*/
 
 const savedCity =
-  localStorage.getItem(
-    "skyline-last-city"
-  );
+    localStorage.getItem(
+        "skyline-last-city"
+    );
 
 loadCity(
-  savedCity || "Berlin"
+    savedCity || "Berlin"
 );
