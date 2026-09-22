@@ -703,7 +703,7 @@ function render() {
 
 
     <footer>
-
+    <br>
       <span>
         data from open-meteo.com
       </span>
