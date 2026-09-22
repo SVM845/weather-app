@@ -1,0 +1,578 @@
+/* =========================================================
+   TOKENS
+========================================================= */
+
+:root {
+  --ink: #1b2430;
+  --paper: #f4f7fa;
+  --paper-soft: #e7edf3;
+  --coral: #e8623f;
+  --line: rgba(27, 36, 48, 0.18);
+
+  --sky-a: #79acdd;
+  --sky-b: #cfe7f7;
+  --text-on-sky: #16233a;
+}
+
+
+/* =========================================================
+   BASE
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  font-family: "Work Sans", sans-serif;
+  color: var(--text-on-sky);
+
+  background:
+    linear-gradient(
+      160deg,
+      var(--sky-a),
+      var(--sky-b) 70%
+    );
+
+  transition:
+    background 900ms ease,
+    color 500ms ease;
+
+  overflow-x: hidden;
+}
+
+.head-type {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+
+/* =========================================================
+   GRAIN
+========================================================= */
+
+.grain {
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 0;
+
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+
+/* =========================================================
+   WRAPPER
+========================================================= */
+
+.wrap {
+  position: relative;
+  z-index: 1;
+
+  max-width: 980px;
+  margin: 0 auto;
+
+  padding: 40px 24px 80px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  gap: 20px;
+  flex-wrap: wrap;
+
+  border-bottom: 2px solid var(--line);
+
+  padding-bottom: 18px;
+  margin-bottom: 44px;
+}
+
+.wordmark {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.wordmark span {
+  font-weight: 400;
+  opacity: 0.65;
+}
+
+.header-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-tab {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  background: var(--paper);
+
+  border: 2px solid var(--ink);
+  border-bottom: none;
+
+  padding: 8px 6px 8px 16px;
+
+  border-radius: 10px 10px 0 0;
+
+  transform: translateY(2px);
+}
+
+.search-tab input {
+  border: none;
+  outline: none;
+  background: transparent;
+
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.95rem;
+
+  width: 160px;
+
+  color: var(--ink);
+}
+
+.search-tab input::placeholder {
+  color: rgba(27, 36, 48, 0.45);
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.icon-btn {
+  border: none;
+  background: var(--ink);
+  color: var(--paper);
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.icon-btn:hover {
+  background: var(--coral);
+}
+
+.icon-btn.ghost {
+  background: transparent;
+
+  border: 2px solid var(--ink);
+
+  color: var(--ink);
+}
+
+.icon-btn.ghost:hover {
+  border-color: var(--coral);
+  color: var(--coral);
+}
+
+
+/* =========================================================
+   UNIT TOGGLE
+========================================================= */
+
+.unit-toggle {
+  display: flex;
+
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.85rem;
+}
+
+.unit-toggle button {
+  border: none;
+
+  background: var(--paper);
+  color: var(--ink);
+
+  padding: 7px 12px;
+
+  cursor: pointer;
+
+  font-family: inherit;
+}
+
+.unit-toggle button.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+
+/* =========================================================
+   MAIN WEATHER SECTION
+========================================================= */
+
+main {
+  display: grid;
+
+  grid-template-columns: 1.1fr 0.9fr;
+
+  gap: 40px;
+
+  align-items: center;
+
+  min-height: 320px;
+}
+
+.place {
+  font-size: 1.1rem;
+
+  text-transform: none;
+
+  opacity: 0.8;
+
+  margin: 0 0 2px;
+}
+
+.place .dot {
+  opacity: 0.5;
+
+  margin: 0 6px;
+}
+
+
+/* =========================================================
+   TEMPERATURE
+========================================================= */
+
+.temp-row {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 6px;
+
+  margin: 4px 0 10px;
+}
+
+.temp-big {
+  font-family: "Space Grotesk", sans-serif;
+
+  font-weight: 700;
+
+  font-size: clamp(4.5rem, 12vw, 7.5rem);
+
+  line-height: 0.9;
+
+  letter-spacing: -0.03em;
+}
+
+.temp-unit {
+  font-family: "Space Grotesk", sans-serif;
+
+  font-size: 1.8rem;
+
+  margin-top: 14px;
+
+  opacity: 0.7;
+}
+
+.condition {
+  font-size: 1.25rem;
+
+  font-weight: 500;
+
+  margin: 0 0 18px;
+}
+
+
+/* =========================================================
+   WEATHER META
+========================================================= */
+
+.meta-line {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 18px 28px;
+
+  font-size: 0.92rem;
+
+  padding-top: 16px;
+
+  border-top: 1px dashed var(--line);
+}
+
+.meta-line div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.meta-line b {
+  font-family: "Space Grotesk", sans-serif;
+
+  font-size: 1.05rem;
+
+  font-weight: 600;
+}
+
+.meta-line small {
+  opacity: 0.65;
+}
+
+
+/* =========================================================
+   WEATHER ILLUSTRATION
+========================================================= */
+
+.illustration {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.illustration svg {
+  width: 100%;
+
+  max-width: 260px;
+
+  height: auto;
+
+  filter:
+    drop-shadow(
+      0 10px 18px rgba(0, 0, 0, 0.12)
+    );
+}
+
+
+/* =========================================================
+   FORECAST
+========================================================= */
+
+.forecast {
+  margin-top: 56px;
+
+  padding-top: 22px;
+
+  border-top: 2px solid var(--line);
+}
+
+.forecast h2 {
+  font-family: "Space Grotesk", sans-serif;
+
+  font-size: 1rem;
+
+  font-weight: 600;
+
+  margin: 0 0 18px;
+}
+
+.forecast-row {
+  display: flex;
+
+  overflow-x: auto;
+
+  gap: 0;
+
+  padding-bottom: 6px;
+
+  scrollbar-width: thin;
+}
+
+.fday {
+  flex: 0 0 auto;
+
+  min-width: 92px;
+
+  text-align: center;
+
+  padding: 6px 14px;
+
+  border-right: 1px dashed var(--line);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 6px;
+}
+
+.fday:first-child {
+  padding-left: 0;
+}
+
+.fday:last-child {
+  border-right: none;
+}
+
+.fday .dname {
+  font-size: 0.8rem;
+
+  opacity: 0.7;
+
+  font-weight: 500;
+}
+
+.fday svg {
+  width: 34px;
+
+  height: 34px;
+
+  margin: 2px 0;
+}
+
+.fday .frange {
+  font-family: "Space Grotesk", sans-serif;
+
+  font-size: 0.85rem;
+}
+
+.fday .frange b {
+  font-weight: 700;
+}
+
+.fday .frange .lo {
+  opacity: 0.55;
+}
+
+
+/* =========================================================
+   STATES
+========================================================= */
+
+.hint {
+  font-size: 0.85rem;
+
+  opacity: 0.6;
+
+  margin-top: 8px;
+}
+
+.status {
+  font-family: "Space Grotesk", sans-serif;
+
+  font-size: 1.1rem;
+
+  padding: 40px 0;
+}
+
+.status.error {
+  color: var(--coral);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+  margin-top: 60px;
+
+  font-size: 0.8rem;
+
+  opacity: 0.55;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+footer a {
+  color: inherit;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 720px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  .illustration {
+    order: -1;
+  }
+
+  .illustration svg {
+    max-width: 180px;
+  }
+}
+
+@media (max-width: 520px) {
+  .wrap {
+    padding: 24px 18px 60px;
+  }
+
+  header {
+    align-items: flex-start;
+  }
+
+  .header-controls {
+    width: 100%;
+  }
+
+  .search-tab {
+    flex: 1;
+  }
+
+  .search-tab input {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
+}
