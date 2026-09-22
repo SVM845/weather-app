@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>skyline — a little weather thing</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div class="grain"></div>
+
+  <div class="wrap">
+
+    <header>
+      <div>
+        <div class="wordmark">
+          skyline <span>/ a small weather app</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+
+        <div class="unit-toggle">
+          <button id="unitC" class="active">°C</button>
+          <button id="unitF">°F</button>
+        </div>
+
+        <div class="search-tab">
+
+          <input
+            id="cityInput"
+            type="text"
+            placeholder="try 'Kyoto' or 'Berlin'…"
+            autocomplete="off"
+          >
+
+          <button
+            class="icon-btn ghost"
+            id="locateBtn"
+            title="use my location"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path>
+            </svg>
+          </button>
+
+          <button
+            class="icon-btn"
+            id="searchBtn"
+            title="search"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+            >
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+          </button>
+
+        </div>
+
+      </div>
+    </header>
+
+    <div id="content">
+      <div class="status">loading a sky near you…</div>
+    </div>
+
+  </div>
+
+  <script src="js/script.js"></script>
+
+</body>
+</html>
